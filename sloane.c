@@ -3,16 +3,16 @@
 #include <unistd.h>
 _, x, y, o, N;
 char b[1920];
-void render_glyph(int n, int c) {
-  for (; n--; x++)
-    c == 10 ? y += 80, x = o - 1
-: x >= 0    ? 80 > x ? c != '~' ? b[y + x] = c : 0 : 0
+void render_glyph(int num_glyphs, int glyph_char) {
+  for (; num_glyphs--; x++)
+    glyph_char == 10 ? y += 80, x = o - 1
+                     : x >= 0    ? 80 > x ? glyph_char != '~' ? b[y + x] = glyph_char : 0 : 0
             : 0;
 }
-int code_to_index(int q, char * l, char *r)
+int code_to_index(int code, char * left, char *right)
 {
-  while (q >= 0)
-    q = ("E"
+  while (code >= 0)
+    code = ("E"
          "?yYrIxC{e^}KhE>[|LXbj}"
          "dOVsJ"
          "@"
@@ -25,17 +25,17 @@ vBA[`_"
          "Lo>}KcqdYrWqKxzKtW]|DXRwsfcUaT\\\
 KXw{Y"
          "RsFwsFwsFw{zaqyaz|FmMpyaoyI\\]cuUw{J"[_ / 6] -
-                         62 >>
+            62 >>
                      _++ % 6 &
-                 1
-             ? r[q]
-             : l[q]) -
-        99;
-  return q;
+            1
+             ? right[code]
+             : left[code]) -
+           99;
+  return code;
 }
-void render_donut(int a) {
-  for (o = x = a, y = 0, _ = 0; _ < 1006;)
-    a = " /\\\n"
+void render_donut(int start_pos) {
+  for (o = x = start_pos, y = 0, _ = 0; _ < 1006;)
+    start_pos = " /\\\n"
         "~|_."[code_to_index(6,
                              "b"
                              "cd\\a[g",
@@ -50,9 +50,9 @@ void render_donut(int a) {
                                                     "`bd^efghXWlV") +
                                       13] -
                          34,
-                         a);
+                         start_pos);
 }
-int main(int k, char **Z) {
+int main(int k, char **argv) {
   float z[1920], A = 0, B = 0, i, j;
   puts(""
        "\x1b"
