@@ -28,8 +28,14 @@ void render_glyph(int num_glyphs, int glyph_char) {
 }
 
 int code_to_index(int code, char *left, char *right) {
+  // Function iterates through a string and performs a calculation based on the passed code, left and right strings.
+  // The result is an index into left or right string depending on the calculation.
+
   // Careful adding braces here, tests broke
-  while (code >= 0)
+  while (code >= 0) {
+    int left_string_chunk_size = 6;
+    int char_base_offset = 62;
+    int char_code_offset = 99;
     code = ("E"
             "?yYrIxC{e^}KhE>[|LXbj}"
             "dOVsJ"
@@ -42,33 +48,39 @@ int code_to_index(int code, char *left, char *right) {
 vBA[`_"
             "Lo>}KcqdYrWqKxzKtW]|DXRwsfcUaT\\\
 KXw{Y"
-            "RsFwsFwsFw{zaqyaz|FmMpyaoyI\\]cuUw{J"[str_idx / 6] -
-            62 >>
-               str_idx++ % 6 &
+            "RsFwsFwsFw{zaqyaz|FmMpyaoyI\\]cuUw{J"[str_idx / left_string_chunk_size] -
+            char_base_offset >>
+                             str_idx++ % left_string_chunk_size &
             1
             ? right[code]
             : left[code]) -
-           99;
+           char_code_offset;
+  }
   return code;
 }
 
-void render_donut(int start_pos) {
+void render_banner(int start_pos) {
   for (buffer_offset = x = start_pos, y = 0, str_idx = 0; str_idx < 1006;) {
+    int glyph_offset = 34;
+    int left_size = 6;
+    int left_offset = 8;
+    int right_offset = 13;
+    int right_size = 11;
     start_pos = " /\\\n"
-                "~|_."[code_to_index(6,
+                "~|_."[code_to_index(left_size,
                                      "b"
                                      "cd\\a[g",
                                      "^`"
                                      "_e"
                                      "]fh") +
-                       8],
+                       left_offset],
             render_glyph("#$%"
-                         "&'()*+,-.1"[code_to_index(11,
+                         "&'()*+,-.1"[code_to_index(right_size,
                                                     "_ac[]\\YZi"
                                                     "jkm",
                                                     "`bd^efghXWlV") +
-                                      13] -
-                         34,
+                                      right_offset] -
+                         glyph_offset,
                          start_pos);
   }
 }
@@ -82,14 +94,13 @@ int main(int k, char **argv) {
        "\x1b"
        "[2J");
   for (;;) {
-
-
     float sin_B1 = sin(angle_B);
     for (k = 0; k < 1840; k++) {
-      y = -k / FRAME_BUFFER_WIDTH - 10, buffer_offset = 41 + (k % FRAME_BUFFER_WIDTH - 40) * 1.3 / y + sin_B1, N = angle_A - 100.0 / y,
+      y = -k / FRAME_BUFFER_WIDTH - 10, buffer_offset = 41 + (k % FRAME_BUFFER_WIDTH - 40) * 1.3 / y + sin_B1, N =
+              angle_A - 100.0 / y,
       frame_buffer[k] = ".#"[buffer_offset + N & 1], depth_buffer[k] = 0;
     }
-    render_donut(FRAME_BUFFER_WIDTH - (int) (9 * angle_B) % 250);
+    render_banner(FRAME_BUFFER_WIDTH - (int) (9 * angle_B) % 250);
     update_frame_buffer(depth_buffer, angle_A, angle_B);
     printf("\x1b["
            "H");
