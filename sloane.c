@@ -1,13 +1,18 @@
 #include <math.h>
 #include <stdio.h>
 #include <unistd.h>
-int _, x, y, offset, N;
+int str_idx, x, y, offset, N;
 char b[1920];
 void render_glyph(int num_glyphs, int glyph_char) {
   for (; num_glyphs--; x++) {
-    glyph_char == 10 ? y += 80, x = offset - 1
-                     : x >= 0 ? 80 > x ? glyph_char != '~' ? b[y + x] = glyph_char : 0 : 0
-                              : 0;
+    if (glyph_char == 10) {
+      y += 80;
+      x = offset - 1;
+    } else {
+      if (x >= 0 && 80 > x && glyph_char != '~') {
+        b[y + x] = glyph_char;
+      }
+    }
   }
 }
 int code_to_index(int code, char * left, char *right)
@@ -26,9 +31,9 @@ int code_to_index(int code, char * left, char *right)
 vBA[`_"
          "Lo>}KcqdYrWqKxzKtW]|DXRwsfcUaT\\\
 KXw{Y"
-         "RsFwsFwsFw{zaqyaz|FmMpyaoyI\\]cuUw{J"[_ / 6] -
+         "RsFwsFwsFw{zaqyaz|FmMpyaoyI\\]cuUw{J"[str_idx / 6] -
             62 >>
-                     _++ % 6 &
+               str_idx++ % 6 &
             1
              ? right[code]
              : left[code]) -
@@ -36,7 +41,7 @@ KXw{Y"
   return code;
 }
 void render_donut(int start_pos) {
-  for (offset = x = start_pos, y = 0, _ = 0; _ < 1006;) {
+  for (offset = x = start_pos, y = 0, str_idx = 0; str_idx < 1006;) {
     start_pos = " /\\\n"
                 "~|_."[code_to_index(6,
                                      "b"
