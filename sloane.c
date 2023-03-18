@@ -3,13 +3,13 @@
 #include <unistd.h>
 _, x, y, o, N;
 char b[1920];
-void p(int n, int c) {
+void render_glyph(int n, int c) {
   for (; n--; x++)
     c == 10 ? y += 80, x = o - 1
 : x >= 0    ? 80 > x ? c != '~' ? b[y + x] = c : 0 : 0
             : 0;
 }
-int c(int q, char * l, char *r)
+int code_to_index(int q, char * l, char *r)
 {
   while (q >= 0)
     q = ("E"
@@ -33,24 +33,24 @@ KXw{Y"
         99;
   return q;
 }
-void E(int a) {
+void render_donut(int a) {
   for (o = x = a, y = 0, _ = 0; _ < 1006;)
     a = " /\\\n"
-        "~|_."[c(6,
-                 "b"
-                 "cd\\a[g",
-                 "^`"
-                 "_e"
-                 "]fh") +
+        "~|_."[code_to_index(6,
+                             "b"
+                             "cd\\a[g",
+                             "^`"
+                             "_e"
+                             "]fh") +
                8],
-    p("#$%"
-      "&'()*+,-.1"[c(11,
-                     "_ac[]\\YZi"
-                     "jkm",
-                     "`bd^efghXWlV") +
-                   13] -
-          34,
-      a);
+            render_glyph("#$%"
+                         "&'()*+,-.1"[code_to_index(11,
+                                                    "_ac[]\\YZi"
+                                                    "jkm",
+                                                    "`bd^efghXWlV") +
+                                      13] -
+                         34,
+                         a);
 }
 int main(int k, char **Z) {
   float z[1920], A = 0, B = 0, i, j;
@@ -62,7 +62,7 @@ int main(int k, char **Z) {
     for (k = 0; k < 1840; k++)
       y = -k / 80 - 10, o = 41 + (k % 80 - 40) * 1.3 / y + n, N = A - 100.0 / y,
       b[k] = ".#"[o + N & 1], z[k] = 0;
-    E(80 - (int)(9 * B) % 250);
+    render_donut(80 - (int)(9 * B) % 250);
     for (j = 0; 6.28 > j; j += 0.07)
       for (i = 0; 6.28 > i; i += 0.02) {
         float c = sin(i), d = cos(j), f = sin(j), h = d + 2,
