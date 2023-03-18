@@ -7,12 +7,15 @@ static const double theta_step = 0.07;
 static const double phi_step = 0.02;
 static const int SCALING_FACTOR = 15;
 static const int FRAME_BUFFER_WIDTH = 80;
-int str_idx, x, y, buffer_offset, N;
+static const int FRAME_BUFFER_SIZE = 1840;
+int str_idx, x, y, buffer_offset;
 char frame_buffer[1920];
 
-void print_frame_buffer(int k);
+void print_frame_buffer();
 
 void update_frame_buffer(float *depth_buffer, float angle_A, float angle_B);
+
+void render_checker_board(float *depth_buffer, float angle_A, float angle_B);
 
 void render_glyph(int num_glyphs, int glyph_char) {
   for (; num_glyphs--; x++) {
@@ -94,20 +97,27 @@ int main(int k, char **argv) {
        "\x1b"
        "[2J");
   for (;;) {
-    float sin_B1 = sin(angle_B);
-    for (k = 0; k < 1840; k++) {
-      y = -k / FRAME_BUFFER_WIDTH - 10, buffer_offset = 41 + (k % FRAME_BUFFER_WIDTH - 40) * 1.3 / y + sin_B1, N =
-              angle_A - 100.0 / y,
-      frame_buffer[k] = ".#"[buffer_offset + N & 1], depth_buffer[k] = 0;
-    }
+    render_checker_board(depth_buffer, angle_A, angle_B);
     render_banner(FRAME_BUFFER_WIDTH - (int) (9 * angle_B) % 250);
     update_frame_buffer(depth_buffer, angle_A, angle_B);
     printf("\x1b["
            "H");
-    print_frame_buffer(k);
+    print_frame_buffer();
     angle_A += 0.053;
     angle_B += 0.037;
     usleep(10000);
+  }
+}
+
+void render_checker_board(float *depth_buffer, float angle_A, float angle_B) {
+  float sin_B1 = sin(angle_B);
+  for (int k = 0; k < FRAME_BUFFER_SIZE; k++) {
+    int y_offset = 10;
+    y = -k / FRAME_BUFFER_WIDTH - y_offset;
+    buffer_offset = 41 + (k % FRAME_BUFFER_WIDTH - 40) * 1.3 / y + sin_B1;
+    int N = angle_A - 100.0 / y;
+    frame_buffer[k] = ".#"[buffer_offset + N & 1];
+    depth_buffer[k] = 0;
   }
 }
 
@@ -129,7 +139,7 @@ void update_frame_buffer(float *depth_buffer, float angle_A, float angle_B) {
       x = 40 + 2 * distance * (l * inc_cos_theta * cos_B - t * sin_B);
       y = 12 + distance * (l * inc_cos_theta * sin_B + t * cos_B);
       buffer_offset = x + FRAME_BUFFER_WIDTH * y;
-      N = 8 *
+      int N = 8 *
           ((sin_theta * sin_A - sin_phi * cos_theta * cos_A) * cos_B - sin_phi * cos_theta * sin_A - sin_theta * cos_A -
            l * cos_theta * sin_B);
 
@@ -142,8 +152,8 @@ void update_frame_buffer(float *depth_buffer, float angle_A, float angle_B) {
   }
 }
 
-void print_frame_buffer(int k) {
-  for (k = 1; 1841 > k; k++) {
+void print_frame_buffer() {
+  for (int k = 1; 1841 > k; k++) {
     putchar(k % FRAME_BUFFER_WIDTH ? frame_buffer[k] : 10);
   }
 }
