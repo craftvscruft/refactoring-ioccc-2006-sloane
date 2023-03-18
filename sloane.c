@@ -3,13 +3,13 @@
 #include <unistd.h>
 _, x, y, o, N;
 char b[1920];
-p(n, c) {
+void p(int n, int c) {
   for (; n--; x++)
     c == 10 ? y += 80, x = o - 1
 : x >= 0    ? 80 > x ? c != '~' ? b[y + x] = c : 0 : 0
             : 0;
 }
-c(q, l, r) char *l, *r;
+int c(int q, char * l, char *r)
 {
   while (q >= 0)
     q = ("E"
@@ -33,7 +33,7 @@ KXw{Y"
         99;
   return q;
 }
-E(a) {
+void E(int a) {
   for (o = x = a, y = 0, _ = 0; _ < 1006;)
     a = " /\\\n"
         "~|_."[c(6,
@@ -52,7 +52,7 @@ E(a) {
           34,
       a);
 }
-main(int k, char **Z) {
+int main(int k, char **Z) {
   float z[1920], A = 0, B = 0, i, j;
   puts(""
        "\x1b"
