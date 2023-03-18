@@ -15,6 +15,8 @@ LOCAL_FLAGS= ${CFLAGS} -lm
 DATA=
 ENTRY=sloane
 
+all: build
+
 build: ${ENTRY}
 
 

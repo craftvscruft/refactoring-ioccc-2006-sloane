@@ -1,0 +1,6 @@
+Checks: 'misc*, portability*, modernize*, clang-analyzer*, cert*, performance*, 
+        readability-*, -readability-identifier-length, -readability-magic-numbers,
+        hicpp*, -hicpp-signed-bitwise,
+        bugprone-*, -bugprone-easily-swappable-parameters'
+
+FormatStyle: google

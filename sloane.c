@@ -1,3 +1,6 @@
+#include <math.h>
+#include <stdio.h>
+#include <unistd.h>
 _,x,y,o       ,N;char       b[1920]       ;p(n,c)
 {for(;n       --;x++)       c==10?y       +=80,x=
 o-1:x>=       0?80>x?             c       !='~'?b
@@ -13,7 +16,7 @@ KXw{Y"   "RsFwsFwsFw{zaqyaz|FmMpyaoyI\\]cuUw{J"
        "~|_."[c(6,"b"              "cd\\a[g","^`"   "_e"
        "]fh")+8], p(   "#$%"        "&'()*+,-.1"[   c(11
       ,"_ac[]\\YZi"   "jkm",         "`bd^efghXWlV" )+13
-      ]-34,a);}main   (k,Z){         float z[1920]  ,A=0
+      ]-34,a);}main   (int k,char **Z){         float z[1920]  ,A=0
 ,B=0  ,i,j; puts(""         "\x1b"   "[2J");for(;;
 )  {  float e=sin(A         ),  n=   sin(B),g=cos(
 A),m   =cos(B);for(k        =0;k<   1840;k++)y=-k
@@ -29,4 +32,7 @@ g)*m-c*         d*e-f*g-l*d*n);if(D>z[o]    )z[o]
        ]  ;  }                                   printf(
        "\x1b["       "H"           );for(k       =1;1841
        >k;k++)       putchar       (k%80?b       [k]:10)
-       ;  A +=       0.053;B       +=0.037       ;  }  }
+       ;  A +=       0.053;B       +=0.037       ;
+    usleep(10000);
+}
+}

@@ -10,3 +10,5 @@ CTestTestfile.cmake
 _deps
 
 sloane
+.idea/
+test/data/log.txt
