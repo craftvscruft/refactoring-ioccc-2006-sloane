@@ -13,7 +13,7 @@ char frame_buffer[1920];
 
 void print_frame_buffer();
 
-void update_frame_buffer(float *depth_buffer, float angle_A, float angle_B);
+void render_donut(float *depth_buffer, float angle_A, float angle_B);
 
 void render_checker_board(float *depth_buffer, float angle_A, float angle_B);
 
@@ -93,15 +93,12 @@ int main(int k, char **argv) {
   float angle_A = 0;
   float angle_B = 0;
 
-  puts(""
-       "\x1b"
-       "[2J");
+  puts("\x1b[2J"); // Clear screen
   for (;;) {
     render_checker_board(depth_buffer, angle_A, angle_B);
     render_banner(FRAME_BUFFER_WIDTH - (int) (9 * angle_B) % 250);
-    update_frame_buffer(depth_buffer, angle_A, angle_B);
-    printf("\x1b["
-           "H");
+    render_donut(depth_buffer, angle_A, angle_B);
+    printf("\x1b[H"); // Move cursor to home
     print_frame_buffer();
     angle_A += 0.053;
     angle_B += 0.037;
@@ -121,7 +118,7 @@ void render_checker_board(float *depth_buffer, float angle_A, float angle_B) {
   }
 }
 
-void update_frame_buffer(float *depth_buffer, float angle_A, float angle_B) {
+void render_donut(float *depth_buffer, float angle_A, float angle_B) {
   // Updates the frame buffer based on angle_A and angle_B
   float sin_A = sin(angle_A);
   float sin_B = sin(angle_B);
