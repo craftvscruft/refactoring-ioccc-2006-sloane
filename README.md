@@ -1,6 +1,6 @@
 From [2006 IOCCC](https://www.ioccc.org/years.html#2006) (International Obfuscated C Code Contest).
 
-See `refactor` branch for untangled version or [follow along with the video]() on Craft vs Cruft YouTube channel.
+See `refactor` branch for untangled version or [follow along with the video](https://youtu.be/IznA7VZDiJc) on Craft vs Cruft YouTube channel.
 
 # Homer's Favorite
 
