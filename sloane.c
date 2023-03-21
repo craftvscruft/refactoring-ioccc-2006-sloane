@@ -28,6 +28,8 @@ void render_glyph(int num_glyphs, char glyph_char, int buf_offset) {
       y += FRAME_BUFFER_WIDTH;
       x = buf_offset;
     } else {
+      // Space should be printed, for inside the letters.
+      // '~' is transparent, shows the background
       if (x >= 0 && FRAME_BUFFER_WIDTH > x && glyph_char != '~') {
         frame_buffer[y + x] = glyph_char;
       }
@@ -46,7 +48,6 @@ int code_to_index(int *arr0, int *arr1, int length) {
   int code = length - 1;
   while (code >= 0) {
     char *ms = "111000100000110111110110001011110100010111101000101111111001000001111111101100010101111000000000101110011111011100010110001001001101111111011001100010000110101011001100010000110101011001100010000110101111110110110001001001101110001001100110111111101110001001100110111111011110110011000100110111100111110111000111101111011000111101110001011110110000001110011011110011100000011100110111100111000000111001101111011111001110110011000000110110011110100101110011011110110011110100101110011011110110001000111001101111100111110111000111011000001110111000000111001000110000101110010001100001011100100011000000111111101100101001110011011001110110001011100110110011101100010111001111101100011011100110111110011111011000010110001010100111101011000101101001111010110001011010011110101100010110100111101111110110001010101011000100100111101011000100100111101011000100100111101111001111110001110011110111110001001111011111000100111101111100010011110111110001100011110111110100011110111110101001111011111010100111101111001100";
-
     if (ms[str_idx] == '1') {
       code = arr1[code];
     } else {
@@ -69,22 +70,24 @@ void render_banner(int start_pos) {
 }
 
 int compute_glyph_count() {
-  int r1[] = {-4, -2, 0, -8, -6, -7, -10, -9, 6, 7, 8, 10};
-  int r2[] = {-3, -1, 1, -5, 2, 3, 4, 5, -11, -12, 9, -13};
+  // In these arrays, each number in the range [-13..10] appears exactly once.
+  int arr0[] = {-4, -2, 0, -8, -6, -7, -10, -9, 6, 7, 8, 10};
+  int arr1[] = {-3, -1, 1, -5, 2, 3, 4, 5, -11, -12, 9, -13};
   int offset = 14;
   int length = 12;
-  int glyph_count = code_to_index(r1, r2, length) + offset;
+  int glyph_count = code_to_index(arr0, arr1, length) + offset;
   // The line of underscores line over "20" is 15 characters long.
   // That is the only case that needs to be over 12.
   return glyph_count <= 12 ? glyph_count : 15;
 }
 
 char compute_glyph_char() {
-  int left_size = 7;
-  int left_offset = 8;
-  int l1[] = {-1, 0, 1, -7, -2, -8, 4};
-  int l2[] = {-5, -3, -4, 2, -6, 3, 5};
-  int glyph_type_idx = code_to_index(l1, l2, left_size) + left_offset;
+  int length = 7;
+  int offset = 8;
+  // In these arrays, each number in the range [-8..5] appears exactly once.
+  int arr0[] = {-1, 0, 1, -7, -2, -8, 4};
+  int arr1[] = {-5, -3, -4, 2, -6, 3, 5};
+  int glyph_type_idx = code_to_index(arr0, arr1, length) + offset;
   return " /\\\n~|_."[glyph_type_idx];
 }
 
