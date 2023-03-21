@@ -12,3 +12,4 @@ _deps
 sloane
 .idea/
 test/data/log.txt
+.ipynb_checkpoints
